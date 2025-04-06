@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.validation.Valid;
 
@@ -36,24 +37,20 @@ public class StockController {
 	}
 	@GetMapping("/register")
 	public String loadRegister(User user, Model model ) {
-		model.addAttribute("user", user);
-		return "register.html";
+		return service.register(user, model);
 	}
 	@PostMapping("/register")
 	public String Register(@ModelAttribute @Valid User user,BindingResult result) {
-		if (!user.getPassword().equals(user.getConfirmPassword())) {
-			result.rejectValue("confirmPassword", "error.confirmPassword", "* Password and Confirm Password are Not Matching");
-		}
-		if (LocalDate.now().getYear()-user.getDob().getYear()<18) {
-			result.rejectValue("dob", "error.dob", "* You should be 18+ to Create Account here");
-		}
-		if (result.hasErrors()) {
-			return "register.html";
-		}else {
-			System.err.println(user);
-			return "otp.html";
-		}
+		return service.register(user,result);
 	}
-
+	@GetMapping("/otp")
+	public String loadOtpPage() {
+		return "otp.html";
+	}
+	@PostMapping("/otp")
+	public String verifyotp(@RequestParam int id, @RequestParam int otp) {
+		return service.verifyOtp(id,otp);
+		
+	}
 }
 

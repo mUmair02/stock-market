@@ -5,6 +5,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>this is otp</h1>
+<form action="/otp" method="post">
+<input type="hidden" name="id" th:value="${id}">
+<input type="text" name="otp" placeholder="Enter otp"><br>
+<button>Submit</button>
+
+</form>
 </body>
 </html>

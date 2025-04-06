@@ -9,6 +9,13 @@ import jakarta.validation.Valid;
 
 public interface StockService {
 
+	String register(User user, Model model);
+
+	String register(@Valid User user, BindingResult result);
+
+
+	String verifyOtp(int id, int otp);
+
 	
 
 
